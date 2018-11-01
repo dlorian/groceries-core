@@ -1,8 +1,10 @@
 module.exports = class User {
-    constructor(options) {
-        this.userName = options.userName;
-        this.firstName = options.firstName;
-        this.lastName = options.lastName;
+    
+    constructor(data) {
+        this.id = data.id;
+        this.userName = data.userName;
+        this.firstName = data.firstName;
+        this.lastName = data.lastName;
     }
 
     getUserName() {
@@ -14,6 +16,6 @@ module.exports = class User {
     }
 
     toString() {
-        return `User[${this.userName}, ${this.getName()}]`;
+        return `User[${this.id}, ${this.userName}, ${this.getName()}]`;
     }
 }

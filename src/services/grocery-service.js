@@ -15,7 +15,6 @@ module.exports = class GroceryService {
     };
 
     async findById(id) {
-        console.log(id);
         const grocery = await this.dao.findById(id);
         return !grocery ? null : this._createGrocery(grocery);
     };

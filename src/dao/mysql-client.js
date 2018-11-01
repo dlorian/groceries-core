@@ -11,6 +11,10 @@ const DbConnection = class DbConnection {
         this.sequelize = sequelize;
     }
 
+    createModel(name, typeDefinition) {
+        return this.sequelize.define(name, typeDefinition, { version: true });
+    }
+
     sequelize() {
         return this.sequelize;
     }

@@ -1,19 +1,30 @@
-const dao = require('./../dao').init('user');
-
 const User = require('../models/user.js');
 
-const findAll = async function() {
-    const groceries = dao.findAll();
-    groceries.map(el => new Grocery)
-};
+module.exports = class UserService {
+    constructor(dao) {
+        this.dao = dao;
+    }
 
-const findById = async function(id) {
-    return dao.findById(id);
-};
+    _createUser(data) {
+        return new User(data);
+    };
 
-const create = async function(options) {
-    const user = new User(options);
-    return dao.persist(user);
-};
+    async findAll() {
+        const users = await this.dao.findAll();
+        return users.map(el => this._createUser(el));
+    };
 
-module.exports = { findById, create };
+    async findById(id) {
+        const user = await this.dao.findById(id);
+        return !user ? null : this._createUser(user);
+    };
+
+    async add(data) {
+        const user = this._createUser(user);
+        return this.dao.persist(user);
+    };
+
+    async delete(id) {
+        return this.dao.deleteById(id);
+    };
+}

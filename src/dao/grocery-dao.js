@@ -1,30 +1,13 @@
-const Sequelize = require("sequelize");
-
-const _init = (sequelize) => {
-    console.log('Init GroceryDAO')
-    return sequelize.define('grocery', {
-        id: {
-            type: Sequelize.UUID,
-            defaultValue: Sequelize.UUIDV1,
-            primaryKey: true
-        },
-        name: {
-            type: Sequelize.STRING
-        },
-        amount: {
-            type: Sequelize.INTEGER
-        }
-    });
-};
+const grocery = require('./typedefs/grocery');
 
 module.exports = class GroceryDAO {
     constructor(dbConnection) {
-        this.Grocery = _init(dbConnection.sequelize);
+        this.Grocery = dbConnection.createModel('grocery', grocery);
 
         this.Grocery.sync({
             force: true
         }
-        ).then((result) => {
+        ).then(() => {
             this.Grocery.create({
                 name: 'Milch',
                 amount: 1
@@ -33,7 +16,7 @@ module.exports = class GroceryDAO {
             console.log(err);
         });
     }
-    
+
     async persist(data) {
         return this._Grocery().create(data);
     }

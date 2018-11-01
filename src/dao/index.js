@@ -1,19 +1,15 @@
-const DBStub = require("./db-stub");
-
+const UserDAO = require('./user-dao');
 const GroceryDAO = require('./grocery-dao');
 
-const useDbStub = process.env.USE_DB_STUB;
-
 const mySqlClient = require('./mysql-client');
-
-const stubs = {
-    grocery: () => new DBStub('groceries'),
-    user: () => new DBStub('users')
-};
 
 const dbDaos = {
     grocery: (dbConnection) => {
         return new GroceryDAO(dbConnection)
+    },
+
+    user: (dbConnection) => {
+        return new UserDAO(dbConnection)
     }
 };
 
