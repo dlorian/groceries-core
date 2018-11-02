@@ -31,7 +31,7 @@ const initCRUD = (app, path, crudService) => {
            res.status(200).json(grocery);
         } catch(err) {
             log.error(err);
-            console.log(err);
+            res.status(500).send(err);
         }
     });
 }
