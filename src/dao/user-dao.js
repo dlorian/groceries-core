@@ -4,18 +4,16 @@ module.exports = class UserDAO {
     constructor(dbConnection) {
         this.User = dbConnection.createModel('user', user);
 
-        this.User.sync({
-            force: true
-        }
-        ).then(() => {
-            this.User.create({
-                userName: 'flo',
-                firstName: 'Florian',
-                lastName: 'Dorau'
+        this.User.sync({ force: true })
+            .then(() => {
+                this.User.create({
+                    userName: 'flo',
+                    firstName: 'Florian',
+                    lastName: 'Dorau'
+                });
+            }).catch((err) => {
+                console.log(err);
             });
-        }).catch((err) => {
-            console.log(err);
-        });
     }
 
     async persist(data) {
@@ -29,5 +27,4 @@ module.exports = class UserDAO {
     async findById(id) {
         return this.User.findById(id);
     }
-}
-
+};

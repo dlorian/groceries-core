@@ -1,32 +1,25 @@
 const Sequelize = require("sequelize");
 
+const DbConnection = require('./db-connection');
+
 const dbHost = process.env.DB_HOST;
 const dbPort = process.env.DB_PORT;
 const dbName = process.env.DB_NAME;
 const dbUser = process.env.DB_USER;
 const dbPass = process.env.DB_PASSWORD;
 
-const DbConnection = class DbConnection {
-    constructor(sequelize) {
-        this.sequelize = sequelize;
-    }
-
-    createModel(name, typeDefinition) {
-        return this.sequelize.define(name, typeDefinition, { version: true });
-    }
-
-    sequelize() {
-        return this.sequelize;
-    }
-};
+const _connectDB = () => {
+    return new Sequelize(dbName, dbUser, dbPass, {
+        host: dbHost,
+        dialect: "mysql",
+        port: dbPort
+    });
+}
 
 const connect = () => {
     return new Promise((resolve, reject) => {
-        const sequelize = new Sequelize(dbName, dbUser, dbPass, {
-            host: dbHost,
-            dialect: "mysql",
-            port: dbPort
-        });
+        const sequelize = _connectDB();
+        
 
         sequelize
             .authenticate()

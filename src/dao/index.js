@@ -1,33 +1,12 @@
-const UserDAO = require('./user-dao');
-const GroceryDAO = require('./grocery-dao');
+const db = require('../db');
 
-const mySqlClient = require('./mysql-client');
-
-const dbDaos = {
-    grocery: (dbConnection) => {
-        return new GroceryDAO(dbConnection)
-    },
-
-    user: (dbConnection) => {
-        return new UserDAO(dbConnection)
-    }
-};
-
-const DaoManager = class DaoManager {
-    constructor(dbConnection) {
-        this.dbConnection = dbConnection;
-    }
-
-    getDao(dao) {
-        return dbDaos[dao](this.dbConnection);
-    }
-};
+const DaoManager = require('./dao-manager');
 
 module.exports = {
     connect: () => {
         return new Promise(async (resolve, reject) => {
             try {
-                const dbConnection = await mySqlClient.getConnection();
+                const dbConnection = await db.getConnection();
                 resolve(new DaoManager(dbConnection));
             } catch (err) {
                 reject(err);
